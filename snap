@@ -10,6 +10,7 @@ function abspath() {
 }
 
 export GIT_DIR=$HOME/.snap.git
+export GIT_WORK_TREE=$HOME
 
 if [[ ! -d $GIT_DIR ]] ; then
   git init
