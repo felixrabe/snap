@@ -4,13 +4,25 @@
 #   export GIT_DIR=$(pwd)/.snap.git
 #   export GIT_WORK_TREE=$(pwd)
 
-file="$1"
+function abspath() {
+  cd -P -- "$(dirname -- "$1")" &&
+  echo "$(pwd -P)/$(basename -- "$1")"
+}
 
 export GIT_DIR=$HOME/.snap.git
 
 if [[ ! -d $GIT_DIR ]] ; then
   git init
 fi
+
+file="$1"
+
+if [[ -z $file ]] ; then
+  echo "Please specify a file."
+  exit 1
+fi
+
+file=$(abspath "$file")
 
 git add "$file"
 git commit -m "$file"
