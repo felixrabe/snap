@@ -21,9 +21,12 @@ file="$1"
 if [[ -z $file ]] ; then
   gitk --all &
   exit 0
+elif [[ $file == X ]] ; then
+  rm -rf "$GIT_DIR"
+  exit 0
 fi
 
 file=$(abspath "$file")
 
 git add "$file"
-git commit -m "$file"
+git commit -m "$file" --allow-empty
