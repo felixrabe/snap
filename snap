@@ -19,8 +19,8 @@ fi
 file="$1"
 
 if [[ -z $file ]] ; then
-  echo "Please specify a file."
-  exit 1
+  gitk --all &
+  exit 0
 fi
 
 file=$(abspath "$file")
