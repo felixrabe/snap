@@ -44,6 +44,12 @@ fi
 if [[ $# == 0 ]] ; then
   gitk --all &
   exit 0
+elif [[ $# == 1 && $1 == pbpaste ]] ; then
+  file=$SNAP_DIR/pbpaste
+  pbpaste > "$file"
+
+  git_add "$file"
+  git_commit pbpaste
 elif [[ $# == 1 ]] ; then
   file=$(abspath "$1")
 
