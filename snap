@@ -3,6 +3,8 @@
 # Usage:
 #   snap              # run 'gitk --all' for snaps
 #   snap X            # erase all snap-related directories
+#   snap -            # snap stdin
+#   snap pbpaste      # snap pbpaste
 #   snap file         # snap file
 #   snap handle file  # snap file as handle for easy comparison
 
@@ -44,6 +46,12 @@ fi
 if [[ $# == 0 ]] ; then
   gitk --all &
   exit 0
+elif [[ $# == 1 && $1 == - ]] ; then
+  file=$SNAP_DIR/stdin
+  cat > "$file"
+
+  git_add "$file"
+  git_commit stdin
 elif [[ $# == 1 && $1 == pbpaste ]] ; then
   file=$SNAP_DIR/pbpaste
   pbpaste > "$file"
