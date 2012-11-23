@@ -1,9 +1,9 @@
 #!/bin/bash
 # Quick diff using git
 
-<<"DEVELOPMENT_VARIABLES"  # multiline comment, keep on top for 'head snap'
+<<"DEVELOPMENT_SETUP"  # multiline comment, keep on top for 'head snap'
 export GIT_DIR=$(pwd)/.snap.git ; export GIT_WORK_TREE=$(pwd)
-DEVELOPMENT_VARIABLES
+DEVELOPMENT_SETUP
 
 # http://serverfault.com/a/72511 Clean way to write complex multi-line string to a variable
 read -d '' usage <<"END_OF_USAGE"
