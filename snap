@@ -16,6 +16,7 @@ Usage:
   snap handle file  # snap file as handle for easy comparison
 END_OF_USAGE
 
+
 function abspath() {
   cd -P -- "$(dirname -- "$1")" &&
   echo "$(pwd -P)/$(basename -- "$1")"
@@ -29,22 +30,35 @@ function git_commit() {
   git commit --allow-empty -m "$1"
 }
 
+
+# Snap-related directories:
 export GIT_DIR=$HOME/.snap.git
-export GIT_WORK_TREE=$HOME
 export SNAP_DIR=$HOME/.snap.dir
+
+# Allow adding files from any place:
+export GIT_WORK_TREE=/
+
+
+# Parameters that do not require the snap-related directories:
 
 if [[ $# == 1 ]] ; then
   case $1 in
   -h|--h*)
+    # show usage
     echo "$usage"
     exit 0
     ;;
   X)
+    # erase all snap-related directories
     echo rm -rf "$GIT_DIR" "$SNAP_DIR"
          rm -rf "$GIT_DIR" "$SNAP_DIR"
     exit 0
   esac
 fi
+
+
+# All remaining parameters require the snap-related directories to exist, so they are
+# created here:
 
 if [[ ! -d $GIT_DIR ]] ; then
   git init
@@ -54,27 +68,35 @@ if [[ ! -d $SNAP_DIR ]] ; then
   mkdir "$SNAP_DIR"
 fi
 
+
+# Parameters that require the snap-related directories:
+
 if [[ $# == 0 ]] ; then
+  # run 'gitk --all' for snaps
   gitk --all &
   exit 0
 elif [[ $# == 1 && $1 == - ]] ; then
+  # snap stdin
   file=$SNAP_DIR/stdin
   cat > "$file"
 
   git_add "$file"
   git_commit stdin
 elif [[ $# == 1 && $1 == pbpaste ]] ; then
+  # snap pbpaste (OSX only)
   file=$SNAP_DIR/pbpaste
   pbpaste > "$file"
 
   git_add "$file"
   git_commit pbpaste
 elif [[ $# == 1 ]] ; then
+  # snap file
   file=$(abspath "$1")
 
   git_add "$file"
   git_commit "$file"
 elif [[ $# == 2 ]] ; then
+  # snap file as handle for easy comparison
   handle=$1
   file=$(abspath "$2")
   snapfile=$SNAP_DIR/$handle
