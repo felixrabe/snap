@@ -53,6 +53,7 @@ if [[ $# == 1 ]] ; then
     echo rm -rf "$GIT_DIR" "$SNAP_DIR"
          rm -rf "$GIT_DIR" "$SNAP_DIR"
     exit 0
+    ;;
   esac
 fi
 
@@ -71,32 +72,41 @@ fi
 
 # Parameters that require the snap-related directories:
 
-if [[ $# == 0 ]] ; then
+case $# in
+0)
   # run 'gitk --all' for snaps
   gitk --all &
   exit 0
-elif [[ $# == 1 && $1 == - ]] ; then
-  # snap stdin
-  file=$SNAP_DIR/stdin
-  cat > "$file"
+  ;;
+1)
+  case $1 in
+  -)
+    # snap stdin
+    file=$SNAP_DIR/stdin
+    cat > "$file"
 
-  git_add "$file"
-  git_commit stdin
-elif [[ $# == 1 && $1 == pbpaste ]] ; then
-  # snap pbpaste (OSX only)
-  file=$SNAP_DIR/pbpaste
-  pbpaste > "$file"
+    git_add "$file"
+    git_commit stdin
+    ;;
+  pbpaste)
+    # snap pbpaste (OSX only)
+    file=$SNAP_DIR/pbpaste
+    pbpaste > "$file"
 
-  git_add "$file"
-  git_commit pbpaste
-elif [[ $# == 1 ]] ; then
-  # snap file
-  file=$(abspath "$1")
+    git_add "$file"
+    git_commit pbpaste
+    ;;
+  *)
+    # snap <file>
+    file=$(abspath "$1")
 
-  git_add "$file"
-  git_commit "$file"
-elif [[ $# == 2 ]] ; then
-  # snap file as handle for easy comparison
+    git_add "$file"
+    git_commit "$file"
+    ;;
+  esac
+  ;;
+2)
+  # snap <file> as <name> for easy comparison
   handle=$1
   file=$(abspath "$2")
   snapfile=$SNAP_DIR/$handle
@@ -105,5 +115,5 @@ elif [[ $# == 2 ]] ; then
 
   git_add "$snapfile"
   git_commit "$handle : $file"
-fi
-
+  ;;
+esac
