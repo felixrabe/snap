@@ -7,13 +7,13 @@ DEVELOPMENT_VARIABLES
 # http://serverfault.com/a/72511 Clean way to write complex multi-line string to a variable
 read -d '' usage <<"END_OF_USAGE"
 Usage:
-  snap              # run 'gitk --all' for snaps
-  snap -h|--help    # show usage (this text)
-  snap X            # erase all snap-related directories
-  snap -            # snap stdin
-  snap pbpaste      # snap pbpaste (OSX only)
-  snap file         # snap file
-  snap handle file  # snap file as handle for easy comparison
+  snap                # run 'gitk --all' for snaps
+  snap -h|--help      # show usage (this text)
+  snap X              # erase all snap-related directories
+  snap -              # snap stdin
+  snap pbpaste        # snap pbpaste (OSX only)
+  snap <file>         # snap <file>
+  snap <name> <file>  # snap <file> as <name> for easy comparison
 END_OF_USAGE
 
 
