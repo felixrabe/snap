@@ -12,6 +12,7 @@ Usage:
   snap -h|--help      # show usage (this text)
   snap X              # erase all snap-related directories
   snap -              # snap stdin
+  snap diff           # show diff of snap HEAD~..HEAD
   snap pbpaste        # snap pbpaste (OSX only)
   snap <file>         # snap <file>
   snap <name> <file>  # snap <file> as <name> for easy comparison
@@ -29,6 +30,10 @@ function git_add() {
 
 function git_commit() {
   git commit --allow-empty -m "$1"
+}
+
+function git_diff() {
+  git diff HEAD~..HEAD
 }
 
 
@@ -88,6 +93,10 @@ case $# in
 
     git_add "$file"
     git_commit stdin
+    ;;
+  diff)
+    # show diff of snap HEAD~..HEAD
+    git_diff
     ;;
   pbpaste)
     # snap pbpaste (OSX only)
