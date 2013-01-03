@@ -10,6 +10,7 @@ read -d '' usage <<"END_OF_USAGE"
 Usage:
   snap                # run 'gitk --all' for snaps
   snap -h|--help      # show usage (this text)
+  snap -c|--config    # show env vars to set for direct Git access
   snap X              # erase all snap-related directories
   snap -              # snap stdin
   snap diff           # show diff of snap HEAD~..HEAD
@@ -52,6 +53,12 @@ if [[ $# == 1 ]] ; then
   -h|--h*)
     # show usage
     echo "$usage"
+    exit 0
+    ;;
+  -c|--c*)
+    # show env vars to set for direct Git access
+    echo "export GIT_DIR='$GIT_DIR'"
+    echo "export GIT_WORK_TREE=/"
     exit 0
     ;;
   X)
