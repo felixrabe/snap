@@ -37,6 +37,12 @@ function git_diff() {
   git diff HEAD~..HEAD
 }
 
+function git_init() {
+  git init
+  git commit --allow-empty -m init
+  git tag init
+}
+
 
 # Snap-related directories:
 export GIT_DIR=$HOME/.snap.git
@@ -75,7 +81,7 @@ fi
 # created here:
 
 if [[ ! -d $GIT_DIR ]] ; then
-  git init
+  git_init
 fi
 
 if [[ ! -d $SNAP_DIR ]] ; then
